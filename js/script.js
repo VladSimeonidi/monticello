@@ -5,7 +5,7 @@ $(document).ready(function() {
 		dots: true,
 		infinite: true,
 		autoplay: true,
-		autoplaySpeed: 4000,
+		autoplaySpeed: 4000
 	});
 });
 function initMap() {
@@ -181,83 +181,65 @@ function initMap() {
 	});
 }
 
-/*const anchors = document.querySelectorAll(".scroll-link");
-for (let anchor of anchors) {
-	anchor.addEventListener("click", (e) => {
-		e.preventDefault();
-		const blockID = anchor.getAttribute("href");
-
-		document.querySelector(blockID).scrollIntoView({
-			behavior: "smooth",
-			block: "start"
-		});
-	});
-}*/
-
-
 const anchors = [].slice.call(document.querySelectorAll('a[href*="#"]')),
-      animationTime = 500,
-      framesCount = 50;
+	animationTime = 500,
+	framesCount = 50;
 
 anchors.forEach(function(item) {
-  // каждому якорю присваиваем обработчик события
-  item.addEventListener('click', function(e) {
-    // убираем стандартное поведение
-    e.preventDefault();
-    
-    // для каждого якоря берем соответствующий ему элемент и определяем его координату Y
-    let coordY = document.querySelector(item.getAttribute('href')).getBoundingClientRect().top + window.pageYOffset;
-    
-    // запускаем интервал, в котором
-    let scroller = setInterval(function() {
-      // считаем на сколько скроллить за 1 такт
-      let scrollBy = coordY / framesCount;
-      
-      // если к-во пикселей для скролла за 1 такт больше расстояния до элемента
-      // и дно страницы не достигнуто
-      if(scrollBy > window.pageYOffset - coordY && window.innerHeight + window.pageYOffset < document.body.offsetHeight) {
-        // то скроллим на к-во пикселей, которое соответствует одному такту
-        window.scrollBy(0, scrollBy);
-      } else {
-        // иначе добираемся до элемента и выходим из интервала
-        window.scrollTo(0, coordY);
-        clearInterval(scroller);
-      }
-    // время интервала равняется частному от времени анимации и к-ва кадров
-    }, animationTime / framesCount);
-  });
-});
+	item.addEventListener("click", function(e) {
+		e.preventDefault();
 
+		let coordY =
+			document
+				.querySelector(item.getAttribute("href"))
+				.getBoundingClientRect().top + window.pageYOffset;
+
+		let scroller = setInterval(function() {
+			let scrollBy = coordY / framesCount;
+
+			if (
+				scrollBy > window.pageYOffset - coordY &&
+				window.innerHeight + window.pageYOffset <
+					document.body.offsetHeight
+			) {
+				window.scrollBy(0, scrollBy);
+			} else {
+				window.scrollTo(0, coordY);
+				clearInterval(scroller);
+			}
+		}, animationTime / framesCount);
+	});
+});
 
 window.addEventListener("scroll", () => {
 	let links = document.querySelectorAll(".list__link");
 	let blocks = document.querySelectorAll(".scroll--block");
-	let block1top = blocks[0].getBoundingClientRect().top; 
+	let block1top = blocks[0].getBoundingClientRect().top;
 	let block2top = blocks[1].getBoundingClientRect().top;
 	let block3top = blocks[2].getBoundingClientRect().top;
 	let block4top = blocks[3].getBoundingClientRect().top;
 	let block5top = blocks[4].getBoundingClientRect().top;
-	let block1bottom = blocks[0].getBoundingClientRect().bottom; 
+	let block1bottom = blocks[0].getBoundingClientRect().bottom;
 	let block2bottom = blocks[1].getBoundingClientRect().bottom;
 	let block3bottom = blocks[2].getBoundingClientRect().bottom;
 	let block4bottom = blocks[3].getBoundingClientRect().bottom;
 	let block5bottom = blocks[4].getBoundingClientRect().bottom;
-console.log(block3top);
-	//console.log(`blockTop: ${blockTop}`);
-	//console.log(`blockBottom:  ${blockBottom}`);
 	if (block1top <= 0 && block1bottom > 0) {
 		links[0].classList.add("active");
 	} else {
 		links[0].classList.remove("active");
 	}
-	if (block2top <= 0 && block2bottom > 0 || block4top <= 0 && block4bottom > 0) {
-		links.forEach( function(elem) {
-			elem.classList.add('active-border');
+	if (
+		(block2top <= 0 && block2bottom > 0) ||
+		(block4top <= 0 && block4bottom > 0)
+	) {
+		links.forEach(function(elem) {
+			elem.classList.add("active-border");
 		});
 		links[1].classList.add("active-black");
 	} else {
-		links.forEach( function(elem) {
-			elem.classList.remove('active-border');
+		links.forEach(function(elem) {
+			elem.classList.remove("active-border");
 		});
 		links[1].classList.remove("active-black");
 	}
@@ -278,4 +260,3 @@ console.log(block3top);
 		links[4].classList.remove("active");
 	}
 });
-
